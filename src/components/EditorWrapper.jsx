@@ -1,4 +1,4 @@
-import { useRef } from "react"; // 1. Impor useRef
+import { useRef } from "react";
 import {
   EditorRenderer,
   FreeLayoutEditorProvider,
@@ -14,15 +14,13 @@ import {
 } from "../flowgram/components/sidebar";
 
 export default function EditorWrapper({ initialData, onSave }) {
-  // 2. Buat ref untuk menyimpan konteks editor
   const editorCtxRef = useRef(null);
 
-  // Ambil props default dari hook Anda
+  // Ambil props default dari hook template
   const editorProps = useEditorProps(initialData, nodeRegistries);
 
-  // 3. Definisikan fungsi handleSave di sini
   const handleSave = () => {
-    // Cek apakah konteks sudah tersimpan di ref
+    // Cek , konteks sudah tersimpan di ref atau belum
     if (editorCtxRef.current && editorCtxRef.current.document) {
       // Ambil data JSON terbaru dari konteks yang tersimpan
       const latestData = editorCtxRef.current.document.toJSON();
@@ -36,12 +34,12 @@ export default function EditorWrapper({ initialData, onSave }) {
     }
   };
 
-  // 4. Gabungkan props default dengan onAllLayersRendered kustom kita
+  // Gabungkan props default dengan onAllLayersRendered kustom kita
   // `onAllLayersRendered` dipanggil saat editor siap dan memberikan `ctx`
   const finalEditorProps = {
     ...editorProps,
     onAllLayersRendered: (ctx) => {
-      // Simpan konteks editor ke dalam ref untuk digunakan nanti
+      // Simpan konteks editor ke dalam ref buat dipake nanti
       editorCtxRef.current = ctx;
       console.log("Editor context captured and ready.");
     },
@@ -49,7 +47,6 @@ export default function EditorWrapper({ initialData, onSave }) {
 
   return (
     <div className="h-screen doc-free-feature-overview">
-      {/* Gunakan props yang sudah digabung */}
       <FreeLayoutEditorProvider {...finalEditorProps}>
         <SidebarProvider>
           <div className="demo-container">
@@ -59,7 +56,6 @@ export default function EditorWrapper({ initialData, onSave }) {
           <SidebarRenderer />
 
           <div className="absolute bottom-4 right-4 z-50">
-            {/* Hubungkan tombol Save ke fungsi handleSave */}
             <button
               onClick={handleSave}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
