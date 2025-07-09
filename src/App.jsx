@@ -1,26 +1,20 @@
-import EditorWrapper from "./components/EditorWrapper";
-import { hardcodedData } from "./hardcodeData";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "pages/Home";
+import FlowgramPage from "pages/FlowgramPage";
 
 export default function App() {
-  const defaultWorkflow = {
-    id: "my-new-flow",
-    nodes: [],
-    lines: [],
-  };
-
-  const handleSave = (data) => {
-    // Misalnya kirim ke backend
-    console.log("Workflow data to save:", data);
-    // fetch('/api/save-workflow', { method: 'POST', body: JSON.stringify(data) });
-  };
-
   return (
-    <div style={{ height: "100vh" }}>
-      <EditorWrapper
-        initialData={hardcodedData}
-        onSave={handleSave}
-      />
-      ;
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<Home />}
+        />
+        <Route
+          path="/flowgram/:id"
+          element={<FlowgramPage />}
+        />
+      </Routes>
+    </Router>
   );
 }

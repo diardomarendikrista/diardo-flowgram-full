@@ -13,7 +13,7 @@ import {
   SidebarRenderer,
 } from "../flowgram/components/sidebar";
 
-export default function EditorWrapper({ initialData, onSave }) {
+export default function EditorWrapper({ initialData, onSave, onChange }) {
   const editorCtxRef = useRef(null);
 
   // Ambil props default dari hook template
@@ -47,7 +47,10 @@ export default function EditorWrapper({ initialData, onSave }) {
 
   return (
     <div className="h-screen doc-free-feature-overview">
-      <FreeLayoutEditorProvider {...finalEditorProps}>
+      <FreeLayoutEditorProvider
+        {...finalEditorProps}
+        onChange={onChange}
+      >
         <SidebarProvider>
           <div className="demo-container">
             <EditorRenderer className="demo-editor" />
