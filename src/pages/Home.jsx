@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { hardcodedData } from "../hardcodeData";
 
 export default function Home() {
   const [flowgrams, setFlowgrams] = useState([]);
@@ -7,8 +8,29 @@ export default function Home() {
 
   // Load data (localstorage)
   useEffect(() => {
-    const savedFlowgrams = JSON.parse(localStorage.getItem("flowgrams")) || [];
-    setFlowgrams(savedFlowgrams);
+    // Coba ambil data dari localStorage
+    let flowgramsToLoad = JSON.parse(localStorage.getItem("flowgrams"));
+
+    // Jika tidak ada data (kunjungan pertama), buat data contoh
+    if (!flowgramsToLoad || flowgramsToLoad.length === 0) {
+      console.log("LocalStorage kosong, membuat flowgram contoh...");
+
+      const newId = "flowgram-default-01"; // ID statis untuk contoh
+      const defaultFlowgram = {
+        id: newId,
+        name: "Contoh Flowgram Bawaan",
+        data: { ...hardcodedData, id: newId }, // Gabungkan hardcodedData dengan ID
+      };
+
+      // Jadikan data contoh sebagai data yang akan di-load
+      flowgramsToLoad = [defaultFlowgram];
+
+      // Simpan data contoh ini ke localStorage untuk kunjungan berikutnya
+      localStorage.setItem("flowgrams", JSON.stringify(flowgramsToLoad));
+    }
+
+    // Set state komponen dengan data yang ada atau yang baru dibuat
+    setFlowgrams(flowgramsToLoad);
   }, []);
 
   const handleCreateNew = () => {
