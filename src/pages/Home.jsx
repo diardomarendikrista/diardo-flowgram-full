@@ -30,7 +30,7 @@ export default function Home() {
     }
 
     // Set state komponen dengan data yang ada atau yang baru dibuat
-    setFlowgrams(flowgramsToLoad);
+    setFlowgrams(flowgramsToLoad.reverse());
   }, []);
 
   const handleCreateNew = () => {
